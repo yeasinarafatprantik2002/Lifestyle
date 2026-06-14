@@ -13,6 +13,7 @@
         <p class="eyebrow">Health screening</p>
         <h1>Lifestyle Risk Predictor</h1>
         <p class="lede">Enter lifestyle and health details to calculate BMI, estimate risk, and get practical recommendations.</p>
+      </div>
     </section>
 
     <section class="workspace">
@@ -167,7 +168,10 @@
           </label>
         </div>
 
-        <button class="primary-button" type="submit">Analyze Risk</button>
+        <div class="action-row">
+          <button class="primary-button" id="analyzeButton" type="submit">Analyze Risk</button>
+          <button class="secondary-button" id="refreshButton" type="button">Refresh Entry</button>
+        </div>
       </form>
 
       <aside class="result-panel" id="resultPanel">

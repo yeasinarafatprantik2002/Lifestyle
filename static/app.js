@@ -1,5 +1,16 @@
 const form = document.querySelector("#riskForm");
 const resultPanel = document.querySelector("#resultPanel");
+const analyzeButton = document.querySelector("#analyzeButton");
+const refreshButton = document.querySelector("#refreshButton");
+
+function renderEmptyState() {
+  resultPanel.innerHTML = `
+    <div class="empty-state">
+      <h2>Results will appear here</h2>
+      <p>BMI, risk prediction, and recommendations update after analysis.</p>
+    </div>
+  `;
+}
 
 function riskClass(label) {
   const value = label.toLowerCase();
@@ -46,9 +57,9 @@ function renderError(message) {
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
-  const button = form.querySelector("button");
-  button.disabled = true;
-  button.textContent = "Analyzing...";
+  analyzeButton.disabled = true;
+  refreshButton.disabled = true;
+  analyzeButton.textContent = "Analyzing...";
 
   try {
     const response = await fetch("/api/predict", {
@@ -65,7 +76,14 @@ form.addEventListener("submit", async (event) => {
   } catch (error) {
     renderError(error.message || "Something went wrong.");
   } finally {
-    button.disabled = false;
-    button.textContent = "Analyze Risk";
+    analyzeButton.disabled = false;
+    refreshButton.disabled = false;
+    analyzeButton.textContent = "Analyze Risk";
   }
+});
+
+refreshButton.addEventListener("click", () => {
+  form.reset();
+  renderEmptyState();
+  form.querySelector("[name='age']").focus();
 });
