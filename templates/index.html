@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lifestyle Risk Predictor</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <section class="intro">
+      <div>
+        <p class="eyebrow">Health screening</p>
+        <h1>Lifestyle Risk Predictor</h1>
+        <p class="lede">Enter lifestyle and health details to calculate BMI, estimate risk, and get practical recommendations.</p>
+    </section>
+
+    <section class="workspace">
+      <form id="riskForm" class="form-panel">
+        <div class="section-title">
+          <h2>Profile</h2>
+          <span>Basic measurements</span>
+        </div>
+
+        <div class="grid">
+          <label>
+            Age
+            <input name="age" type="number" min="1" max="120" required placeholder="24">
+          </label>
+          <label>
+            Gender
+            <select name="gender" required>
+              <option value="">Select</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label>
+            Height (cm)
+            <input name="height_cm" type="number" min="1" step="0.1" required placeholder="170">
+          </label>
+          <label>
+            Weight (kg)
+            <input name="weight_kg" type="number" min="1" step="0.1" required placeholder="68">
+          </label>
+        </div>
+
+        <div class="section-title">
+          <h2>Lifestyle</h2>
+          <span>Daily habits</span>
+        </div>
+
+        <div class="grid">
+          <label>
+            Fruits and vegetables
+            <select name="fruit_veg_freq" required>
+              <option>Daily</option>
+              <option>Sometimes</option>
+              <option>Rarely</option>
+              <option>Never</option>
+            </select>
+          </label>
+          <label>
+            Fast food
+            <select name="fast_food_freq" required>
+              <option>Rarely</option>
+              <option>1-2 times a week</option>
+              <option>3-4 times a week</option>
+              <option>Daily</option>
+            </select>
+          </label>
+          <label>
+            Drink 8 glasses of water?
+            <select name="water_8_glasses" required>
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+          </label>
+          <label>
+            Sugary drinks
+            <select name="sugary_drinks_freq" required>
+              <option>Rarely</option>
+              <option>Occasionally</option>
+              <option>3-4 times a week</option>
+              <option>Daily</option>
+            </select>
+          </label>
+          <label>
+            Exercise frequency
+            <select name="exercise_freq" required>
+              <option>3-4 times a week</option>
+              <option>Daily</option>
+              <option>1-2 times a week</option>
+              <option>Rarely</option>
+              <option>Never</option>
+            </select>
+          </label>
+          <label>
+            Exercise type
+            <input name="exercise_type" type="text" placeholder="Walking, gym, sports">
+          </label>
+          <label>
+            Sleep hours
+            <select name="sleep_hours" required>
+              <option>7-8 hours</option>
+              <option>5-6 hours</option>
+              <option>Less than 5 hours</option>
+              <option>More than 8 hours</option>
+            </select>
+          </label>
+          <label>
+            Stress level
+            <select name="stress_level" required>
+              <option>Low</option>
+              <option>Moderate</option>
+              <option>High</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="section-title">
+          <h2>Medical Context</h2>
+          <span>Risk factors</span>
+        </div>
+
+        <div class="grid">
+          <label>
+            Smoke
+            <select name="smoke" required>
+              <option>No</option>
+              <option>Occasionally</option>
+              <option>Yes</option>
+            </select>
+          </label>
+          <label>
+            Alcohol
+            <select name="alcohol" required>
+              <option>No</option>
+              <option>Occasionally</option>
+              <option>Yes</option>
+            </select>
+          </label>
+          <label>
+            Chronic conditions
+            <input name="chronic_conditions" type="text" placeholder="None, diabetes, hypertension">
+          </label>
+          <label>
+            Family heart history
+            <select name="family_history_heart" required>
+              <option>No</option>
+              <option>Yes</option>
+            </select>
+          </label>
+          <label>
+            Fasting glucose
+            <input name="fasting_glucose" type="text" placeholder="95 mg/dL">
+          </label>
+          <label>
+            Overall health
+            <select name="overall_health" required>
+              <option>Good</option>
+              <option>Excellent</option>
+              <option>Fair</option>
+              <option>Poor</option>
+            </select>
+          </label>
+        </div>
+
+        <button class="primary-button" type="submit">Analyze Risk</button>
+      </form>
+
+      <aside class="result-panel" id="resultPanel">
+        <div class="empty-state">
+          <h2>Results will appear here</h2>
+          <p>BMI, risk prediction, and recommendations update after analysis.</p>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
