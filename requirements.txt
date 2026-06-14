@@ -5,4 +5,5 @@ pandas
 scikit-learn
 joblib
 openpyxl
+matplotlib
 xgboost

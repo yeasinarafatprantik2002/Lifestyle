@@ -27,6 +27,12 @@ logs/
 artifacts/
 data/lifestyle_health_risk_labeled_dataset.csv
 data/model_results.csv
+report_figures/
+
+# Generated reports/documents
+Lifestyle_Health_Risk_Project_Report.docx
+FYDP_Template.docx
+generate_project_report.py
 
 # Large/local raw datasets
 # Keep this commented if you want to version the final training dataset.
@@ -38,6 +44,7 @@ Thumbs.db
 Desktop.ini
 .vscode/
 .idea/
+.ipynb_checkpoints/
 
 # Microsoft Office temporary files
 ~$*.docx
