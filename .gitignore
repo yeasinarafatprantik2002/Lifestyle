@@ -1,0 +1,49 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment and local config
+.env
+.env.*
+!.env.example
+
+# FastAPI / server runtime
+*.log
+logs/
+
+# Generated ML artifacts and training outputs
+artifacts/
+data/lifestyle_health_risk_labeled_dataset.csv
+data/model_results.csv
+
+# Large/local raw datasets
+# Keep this commented if you want to version the final training dataset.
+# data/*.xlsx
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+
+# Microsoft Office temporary files
+~$*.docx
+~$*.xlsx
+
+# Build/package outputs
+build/
+dist/
+*.egg-info/
