@@ -12,6 +12,7 @@ A FastAPI web application for lifestyle-based health risk prediction and persona
 - Risk prediction: `Low Risk`, `Moderate Risk`, or `High Risk`
 - Personalized lifestyle recommendations
 - Model comparison report saved as CSV
+- Evaluation plots for report figures
 - Trained model saved with `joblib`
 
 ## Project Structure
@@ -29,8 +30,11 @@ Lifestyle/
 |   `-- index.html
 |-- artifacts/
 |   `-- lifestyle_risk_model.joblib
+|-- report_figures/
+|   `-- evaluation/
 |-- life_style_train.py
 |-- main.py
+|-- evaluation_plots.py
 |-- requirements.txt
 |-- .gitignore
 `-- README.md
@@ -118,6 +122,57 @@ python life_style_train.py
 ```
 
 This will clean the dataset, calculate BMI, create risk labels, train multiple models, save the best model, and write result files.
+
+## Evaluation Figures
+
+Generate model evaluation figures and metrics for the project report:
+
+```bash
+python evaluation_plots.py
+```
+
+The script evaluates:
+
+- KNN
+- Decision Tree
+- Random Forest
+- Logistic Regression
+- SVM
+- ANN / MLPClassifier
+- XGBoost, if installed
+- Hybrid ANN + Random Forest
+
+Outputs are saved in:
+
+```text
+report_figures/evaluation/
+```
+
+Generated files include:
+
+```text
+confusion_matrix_KNN.png
+confusion_matrix_Decision_Tree.png
+confusion_matrix_Random_Forest.png
+confusion_matrix_Logistic_Regression.png
+confusion_matrix_SVM.png
+confusion_matrix_ANN.png
+confusion_matrix_XGBoost.png
+confusion_matrix_Hybrid_ANN_RF.png
+combined_roc_auc_all_models.png
+combined_accuracy_curve_all_models.png
+all_models_performance_comparison.png
+comparison_accuracy.png
+comparison_precision_weighted.png
+comparison_recall_weighted.png
+comparison_f1_weighted.png
+comparison_roc_auc_macro_ovr.png
+model_metrics.csv
+```
+
+The script does not generate separate per-model ROC or accuracy learning curve files. It generates combined ROC-AUC and combined accuracy curves for all models.
+
+`report_figures/` is ignored by Git because these files are generated outputs. Re-run `python evaluation_plots.py` whenever you need to recreate them.
 
 ## API Endpoints
 
@@ -216,6 +271,7 @@ Example response:
 
 - `main.py`: FastAPI app, startup training, API routes
 - `life_style_train.py`: dataset cleaning, BMI, training, prediction, recommendations
+- `evaluation_plots.py`: generates confusion matrices, combined curves, comparison graphs, and metrics CSV
 - `templates/index.html`: website form and result area
 - `static/app.js`: browser-side form submission and refresh button
 - `static/styles.css`: page design
