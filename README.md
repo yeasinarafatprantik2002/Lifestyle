@@ -36,24 +36,34 @@ Lifestyle/
 |-- main.py
 |-- evaluation_plots.py
 |-- requirements.txt
+|-- requirements-dev.txt
+|-- vercel.json
+|-- .python-version
 |-- .gitignore
 `-- README.md
 ```
 
 ## Requirements
 
-- Python 3.11 or newer recommended
-- Python 3.14 may work, but some ML libraries such as `xgboost` can have compatibility issues depending on package availability.
+- Python 3.12 is used for Vercel production through `.python-version`.
+- Python 3.11 or newer is recommended for local development.
+- Python 3.14 may work locally, but some optional ML libraries can have compatibility issues depending on package availability.
 
 ## Setup
 
-From the project folder:
+Install runtime dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-If `xgboost` fails to install, you can remove `xgboost` from `requirements.txt`. The project will still run because XGBoost is optional in `life_style_train.py`.
+Install optional development/evaluation dependencies:
+
+```bash
+pip install -r requirements-dev.txt
+```
+
+`requirements.txt` is intentionally kept production-focused for Vercel. Plotting and optional XGBoost support live in `requirements-dev.txt`.
 
 ## Dataset
 
@@ -99,7 +109,7 @@ Open the website:
 http://127.0.0.1:8000
 ```
 
-When the server starts, it automatically trains the model using:
+When the server starts locally, it automatically trains the model using:
 
 ```text
 data/Data.xlsx
@@ -113,6 +123,12 @@ data/lifestyle_health_risk_labeled_dataset.csv
 data/model_results.csv
 ```
 
+In Vercel production, the app does not train during cold start. It loads the committed pre-trained model from:
+
+```text
+artifacts/lifestyle_risk_model.joblib
+```
+
 ## Manual Training
 
 You can also train without starting the website:
@@ -122,6 +138,12 @@ python life_style_train.py
 ```
 
 This will clean the dataset, calculate BMI, create risk labels, train multiple models, save the best model, and write result files.
+
+Before deploying to Vercel, run manual training once and commit the updated model artifact:
+
+```text
+artifacts/lifestyle_risk_model.joblib
+```
 
 ## Evaluation Figures
 
@@ -173,6 +195,69 @@ model_metrics.csv
 The script does not generate separate per-model ROC or accuracy learning curve files. It generates combined ROC-AUC and combined accuracy curves for all models.
 
 `report_figures/` is ignored by Git because these files are generated outputs. Re-run `python evaluation_plots.py` whenever you need to recreate them.
+
+## Vercel Production Deployment
+
+This project includes Vercel production configuration:
+
+```text
+vercel.json
+.python-version
+requirements.txt
+```
+
+Production behavior:
+
+- Vercel detects `main.py` and the top-level FastAPI `app`.
+- Python runtime version is pinned to `3.12`.
+- Runtime dependencies are installed from `requirements.txt`.
+- Generated report/evaluation files are excluded from the serverless function bundle.
+- The app uses `artifacts/lifestyle_risk_model.joblib` instead of training on serverless cold start.
+
+Deploy checklist:
+
+1. Train locally:
+
+```bash
+python life_style_train.py
+```
+
+2. Confirm this file exists:
+
+```text
+artifacts/lifestyle_risk_model.joblib
+```
+
+3. Commit required production files:
+
+```text
+main.py
+life_style_train.py
+requirements.txt
+vercel.json
+.python-version
+templates/
+static/
+data/Data.xlsx
+artifacts/lifestyle_risk_model.joblib
+```
+
+4. Deploy with Vercel.
+
+After deployment, check:
+
+```http
+GET /api/health
+```
+
+Expected production status:
+
+```json
+{
+  "status": "ok",
+  "training_status": "model_ready"
+}
+```
 
 ## API Endpoints
 
@@ -272,6 +357,10 @@ Example response:
 - `main.py`: FastAPI app, startup training, API routes
 - `life_style_train.py`: dataset cleaning, BMI, training, prediction, recommendations
 - `evaluation_plots.py`: generates confusion matrices, combined curves, comparison graphs, and metrics CSV
+- `requirements.txt`: runtime dependencies for local server and Vercel production
+- `requirements-dev.txt`: optional local evaluation dependencies
+- `vercel.json`: Vercel bundle configuration
+- `.python-version`: Vercel Python version pin
 - `templates/index.html`: website form and result area
 - `static/app.js`: browser-side form submission and refresh button
 - `static/styles.css`: page design
@@ -290,7 +379,13 @@ pip install -r requirements.txt
 
 ### XGBoost install error
 
-Use Python 3.11 or 3.12, or remove `xgboost` from `requirements.txt`. The app can still train and predict without XGBoost.
+Install development dependencies with Python 3.11 or 3.12:
+
+```bash
+pip install -r requirements-dev.txt
+```
+
+The production app can still run without XGBoost because XGBoost is optional in the training code.
 
 ### Dataset not found
 
@@ -306,6 +401,14 @@ Stop the old server process or run on another port:
 
 ```bash
 python -m uvicorn main:app --reload --port 8001
+```
+
+### Vercel says model is missing
+
+Run training locally and commit:
+
+```text
+artifacts/lifestyle_risk_model.joblib
 ```
 
 ## Note

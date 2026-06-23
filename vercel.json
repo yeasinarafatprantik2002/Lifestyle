@@ -1,0 +1,8 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "main.py": {
+      "excludeFiles": "{__pycache__/**,.pytest_cache/**,report_figures/**,evaluation_plots.py,requirements-dev.txt,*.docx,data/lifestyle_health_risk_labeled_dataset.csv,data/model_results.csv}"
+    }
+  }
+}

@@ -24,7 +24,9 @@ ENV/
 logs/
 
 # Generated ML artifacts and training outputs
-artifacts/
+artifacts/*
+!artifacts/
+!artifacts/lifestyle_risk_model.joblib
 data/lifestyle_health_risk_labeled_dataset.csv
 data/model_results.csv
 report_figures/
@@ -44,6 +46,7 @@ Thumbs.db
 Desktop.ini
 .vscode/
 .idea/
+.vercel/
 .ipynb_checkpoints/
 
 # Microsoft Office temporary files
